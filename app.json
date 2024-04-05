@@ -1,0 +1,42 @@
+{
+    "expo": {
+        "name": "FirstExpo",
+        "slug": "FirstExpo",
+        "version": "1.0.0",
+        "orientation": "default",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "plugins": [
+            [
+                "expo-font",
+                {
+                    "fonts": ["src/assets/fonts/OpenSans-bold.ttf"]
+                }
+            ],
+            [
+                "expo-screen-orientation",
+                {
+                    "initialOrientation": "DEFAULT"
+                }
+            ]
+        ],
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        }
+    }
+}
