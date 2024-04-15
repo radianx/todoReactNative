@@ -4,16 +4,16 @@ import { Pressable, Text, View } from "react-native";
 import { styles } from "./styles";
 
 const Button = (props) => {
-    const { onPress, label } = props;
+    const { onPress, label, customStyle, children } = props;
 
     const [isPressing, setIsPressing] = useState(false);
-    const [currentStyle, setCurrentStyle] = useState(styles.container);
+    const [currentStyle, setCurrentStyle] = useState(customStyle ?? styles.container);
 
     useEffect(() => {
         if (isPressing) {
-            setCurrentStyle(styles.pressed);
+            setCurrentStyle(customStyle ? customStyle.pressed : styles.pressed);
         } else {
-            setCurrentStyle(styles.container);
+            setCurrentStyle(customStyle ? customStyle.container : styles.container);
         }
     }, [isPressing]);
 
@@ -23,7 +23,7 @@ const Button = (props) => {
             onPressIn={() => setIsPressing(true)}
             onPressOut={() => setIsPressing(false)}>
             <View style={currentStyle}>
-                <Text style={styles.buttonText}>{label}</Text>
+                {children ? children : <Text style={styles.buttonText}>{label}</Text>}
             </View>
         </Pressable>
     );
@@ -31,7 +31,12 @@ const Button = (props) => {
 
 Button.propTypes = {
     onPress: propTypes.func.isRequired,
-    label: propTypes.string.isRequired,
+    label: propTypes.string,
+    children: propTypes.node,
+    customStyle: propTypes.shape({
+        pressed: propTypes.object,
+        container: propTypes.object,
+    }),
 };
 
 export default Button;
