@@ -1,0 +1,25 @@
+export const RESET_BACKGROUND_IMAGE = "RESET_BACKGROUND_IMAGE";
+export const RESET_ALL_SETTINGS = "RESET_ALL_SETTINGS";
+export const TOGGLE_HUD = "TOGGLE_HUD";
+export const TOGGLE_HAPTIC_FEEDBACK = "TOGGLE_HAPTIC_FEEDBACK";
+export const TOGGLE_SOUND = "TOGGLE_SOUND";
+export const UPDATE_PLAYER_1_COLOR = "UPDATE_PLAYER_1_COLOR";
+export const UPDATE_PLAYER_2_COLOR = "UPDATE_PLAYER_2_COLOR";
+export const UPDATE_PLAYER_1_NAME = "UPDATE_PLAYER_1_NAME";
+export const UPDATE_PLAYER_2_NAME = "UPDATE_PLAYER_2_NAME";
+export const UPDATE_SELECTED_COLOR = "UPDATE_SELECTED_COLOR";
+export const UPDATE_BACKGROUND_IMAGE = "UPDATE_BACKGROUND_IMAGE";
+export const UPDATE_FOREGROUND_IMAGE = "UPDATE_FOREGROUND_IMAGE";
+
+export const resetImage = () => ({ type: RESET_BACKGROUND_IMAGE });
+export const resetSettings = () => ({ type: RESET_ALL_SETTINGS });
+export const toggleHud = () => ({ type: TOGGLE_HUD });
+export const toggleSound = () => ({ type: TOGGLE_SOUND });
+export const toggleHaptics = () => ({ type: TOGGLE_HAPTIC_FEEDBACK });
+export const updatePlayer1Name = (name) => ({ type: UPDATE_PLAYER_1_NAME, payload: name });
+export const updatePlayer2Name = (name) => ({ type: UPDATE_PLAYER_2_NAME, payload: name });
+export const updatePlayer1Color = (color) => ({ type: UPDATE_PLAYER_1_COLOR, payload: color });
+export const updatePlayer2Color = (color) => ({ type: UPDATE_PLAYER_2_COLOR, payload: color });
+export const updateSelectedColor = (color) => ({ type: UPDATE_SELECTED_COLOR, payload: color });
+export const updateBackgroundImage = (asset) => ({ type: UPDATE_BACKGROUND_IMAGE, payload: asset });
+export const updateForegroundImage = (asset) => ({ type: UPDATE_FOREGROUND_IMAGE, payload: asset });

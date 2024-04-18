@@ -1,10 +1,18 @@
 /* eslint-disable indent */
-import React, { useEffect, useRef, useState } from "react";
-import { Text, View, ActivityIndicator, StyleSheet, Dimensions } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+    Text,
+    View,
+    ActivityIndicator,
+    StyleSheet,
+    Dimensions,
+    TextInput,
+    ScrollView,
+} from "react-native";
 import ColorPicker from "react-native-wheel-color-picker";
-import store from "../../redux/store";
 import Button from "../../components/Button/Button";
 import * as ImagePicker from "expo-image-picker";
+import Checkbox from "expo-checkbox";
 
 export const styles = StyleSheet.create({
     text: {
@@ -21,14 +29,14 @@ export const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: 20,
+            padding: 15,
             borderTopWidth: 1,
             borderColor: "#AAAAAA",
         },
         pressed: {
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: 20,
+            padding: 15,
             borderTopWidth: 1,
             borderColor: "#AAAAAA",
             backgroundColor: "#AAA",
@@ -42,17 +50,42 @@ export const styles = StyleSheet.create({
 });
 
 const Settings = (props) => {
-    const { settings } = props;
+    const {
+        resetImage,
+        resetSettings,
+        settings,
+        toggleHaptics,
+        toggleHud,
+        toggleSound,
+        updateBackgroundImage,
+        updatePlayer1Color,
+        updatePlayer1Name,
+        updatePlayer2Color,
+        updatePlayer2Name,
+        updateSelectedColor,
+    } = props;
     const pickerRef = useRef(null);
     const [showPicker, setShowPicker] = useState(false);
     const [optionSelected, setOptionSelected] = useState(null);
     const [currentSelectedColor, setCurrentSelectedColor] = useState(null);
 
     const handleOptionSelected = (option) => {
-        if (option != "backgroundImage") {
-            setShowPicker(true);
-        } else {
-            pickImage();
+        switch (option) {
+            case "backgroundImage":
+                pickImage();
+                break;
+            case "haptics":
+                toggleHaptics();
+                break;
+            case "keepHUD":
+                toggleHud();
+                break;
+            case "sound":
+                toggleSound();
+                break;
+            default:
+                setShowPicker(true);
+                break;
         }
         setOptionSelected(option);
     };
@@ -60,16 +93,13 @@ const Settings = (props) => {
     const handleColorSave = (option) => {
         switch (option) {
             case "player1Color":
-                store.dispatch({ type: "UPDATE_PLAYER_1_COLOR", payload: currentSelectedColor });
+                updatePlayer1Color(currentSelectedColor);
                 break;
             case "player2Color":
-                store.dispatch({ type: "UPDATE_PLAYER_2_COLOR", payload: currentSelectedColor });
+                updatePlayer2Color(currentSelectedColor);
                 break;
             case "selectedColor":
-                store.dispatch({ type: "UPDATE_SELECTED_COLOR", payload: currentSelectedColor });
-                break;
-            case "backgroundImage":
-                store.dispatch({ type: "UPDATE_BACKGROUND_IMAGE", payload: currentSelectedColor });
+                updateSelectedColor(currentSelectedColor);
                 break;
         }
 
@@ -88,8 +118,16 @@ const Settings = (props) => {
         });
 
         if (!result.canceled) {
-            store.dispatch({ type: "UPDATE_BACKGROUND_IMAGE", payload: result.assets[0] });
+            updateBackgroundImage(result.assets[0]);
         }
+    };
+
+    const handlePlayer1NameChange = (text) => {
+        updatePlayer1Name(text);
+    };
+
+    const handlePlayer2NameChange = (text) => {
+        updatePlayer2Name(text);
     };
 
     return (
@@ -122,7 +160,13 @@ const Settings = (props) => {
                     </View>
                 </View>
             ) : (
-                <>
+                <ScrollView>
+                    <TextInput
+                        style={styles.row.container}
+                        value={settings.player1Name}
+                        placeholder="Player 1 name"
+                        onChangeText={handlePlayer1NameChange}
+                    />
                     <Button
                         customStyle={styles.row}
                         onPress={() => handleOptionSelected("player1Color")}>
@@ -134,6 +178,12 @@ const Settings = (props) => {
                             }}
                         />
                     </Button>
+                    <TextInput
+                        style={styles.row.container}
+                        value={settings.player2Name}
+                        placeholder="Player 2 name"
+                        onChangeText={handlePlayer2NameChange}
+                    />
                     <Button
                         customStyle={styles.row}
                         onPress={() => handleOptionSelected("player2Color")}>
@@ -161,7 +211,29 @@ const Settings = (props) => {
                         onPress={() => handleOptionSelected("backgroundImage")}>
                         <Text style={styles.text}>BACKGROUND IMAGE</Text>
                     </Button>
-                </>
+                    <Button
+                        customStyle={styles.row}
+                        onPress={() => handleOptionSelected("keepHUD")}>
+                        <Text style={styles.text}>KEEP PLAYER HUD</Text>
+                        <Checkbox style={{ marginRight: 8 }} value={settings?.keepHUD} />
+                    </Button>
+                    <Button
+                        customStyle={styles.row}
+                        onPress={() => handleOptionSelected("haptics")}>
+                        <Text style={styles.text}>HAPTICS</Text>
+                        <Checkbox style={{ marginRight: 8 }} value={settings?.isHapticsOn} />
+                    </Button>
+                    <Button customStyle={styles.row} onPress={() => handleOptionSelected("sound")}>
+                        <Text style={styles.text}>SOUND</Text>
+                        <Checkbox style={{ marginRight: 8 }} value={settings?.isSoundOn} />
+                    </Button>
+                    <Button customStyle={styles.row} onPress={() => resetImage()}>
+                        <Text style={styles.text}>RESET BACKGROUND IMAGE</Text>
+                    </Button>
+                    <Button customStyle={styles.row} onPress={() => resetSettings()}>
+                        <Text style={styles.text}>RESET ALL SETTINGS</Text>
+                    </Button>
+                </ScrollView>
             )}
         </View>
     );

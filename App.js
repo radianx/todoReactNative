@@ -18,14 +18,14 @@ const App = () => {
     }, []);
 
     return (
-        <NavigationContainer>
-            <Provider store={store}>
+        <Provider store={store}>
+            <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
                     <Stack.Screen name="Settings" component={Settings} />
                 </Stack.Navigator>
-            </Provider>
-        </NavigationContainer>
+            </NavigationContainer>
+        </Provider>
     );
 };
 

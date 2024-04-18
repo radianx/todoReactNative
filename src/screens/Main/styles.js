@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "rgba(0, 0, 0, 0.2)",
+        flexDirection: "row",
     },
     mainRow: {
         flexDirection: "row",
@@ -63,5 +64,10 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         color: "#fff",
         fontFamily: "OpenSansBold",
+    },
+    timeText: {
+        fontSize: 18,
+        color: "#fff",
+        fontFamily: "NotoSansMono",
     },
 });
